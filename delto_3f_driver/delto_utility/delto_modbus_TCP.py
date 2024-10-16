@@ -200,15 +200,19 @@ class Communication:
         self.client.write_register(address = Delto3FHoldingRegisters.MOTION_STEP.value,
                                     value = step, slave = self.slaveID)
 
-    def test(self):
-        self.client.write_register(address=Delto3FHoldingRegisters.ETHERNET_GATEWAY_C.value,
-                                   value=0,
-                                   slave=self.slaveID)
-        self.RomWrite()
-
     def RomWrite(self):
         self.client.write_coil(address = Delto3FCoils.EEPROM_WRITE.value,
                                value = True,
                                slave = self.slaveID)
+
+    def test(self):
+        self.client.write_register(address=Delto3FHoldingRegisters.ETHERNET_GATEWAY_C.value,
+                                   value=0,
+                                   slave=self.slaveID)
+        
+    def write_holding_register(self, data):
+        self.client.write_registers(address= data[0],
+                                     values= data[1:],
+                                     slave=self.slaveID)
         
 
